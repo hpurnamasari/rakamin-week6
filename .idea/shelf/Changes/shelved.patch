@@ -1,0 +1,430 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+new file mode 100644
+--- /dev/null	(date 1698158279937)
++++ b/pom.xml	(date 1698158279937)
+@@ -0,0 +1,46 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0"
++         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>org.example</groupId>
++    <artifactId>rakamin-week6</artifactId>
++    <version>1.0-SNAPSHOT</version>
++
++    <properties>
++        <maven.compiler.source>21</maven.compiler.source>
++        <maven.compiler.target>21</maven.compiler.target>
++        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
++    </properties>
++
++
++    <dependencies>
++        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
++        <dependency>
++            <groupId>org.seleniumhq.selenium</groupId>
++            <artifactId>selenium-java</artifactId>
++            <version>4.10.0</version>
++        </dependency>
++
++        <!-- https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine -->
++        <dependency>
++            <groupId>org.junit.vintage</groupId>
++            <artifactId>junit-vintage-engine</artifactId>
++            <version>5.10.0</version>
++            <scope>test</scope>
++        </dependency>
++
++        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
++        <dependency>
++            <groupId>io.github.bonigarcia</groupId>
++            <artifactId>webdrivermanager</artifactId>
++            <version>5.4.1</version>
++        </dependency>
++
++
++    </dependencies>
++
++
++
++</project>
+\ No newline at end of file
+Index: src/test/java/saucedemo/login.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/saucedemo/login.java b/src/test/java/saucedemo/login.java
+new file mode 100644
+--- /dev/null	(date 1698174143555)
++++ b/src/test/java/saucedemo/login.java	(date 1698174143555)
+@@ -0,0 +1,155 @@
++package saucedemo;
++
++import io.github.bonigarcia.wdm.WebDriverManager;
++import org.junit.Assert;
++import org.junit.Test;
++import org.openqa.selenium.By;
++import org.openqa.selenium.WebDriver;
++import org.openqa.selenium.chrome.ChromeDriver;
++
++import java.util.concurrent.TimeUnit;
++
++public class login {
++    @Test
++    public void success_login_case(){
++        WebDriver driver;
++        String baseUrl = "https://www.saucedemo.com/";
++
++        WebDriverManager.chromedriver().setup();
++
++        //apply chrome driver setup
++        //buka page login saucedemo
++        driver = new ChromeDriver();
++        driver.manage().window().maximize();
++        driver.get(baseUrl);
++
++        //input username
++        driver.findElement(By.id("user-name")).sendKeys( "standard_user");
++        //input password
++        driver.findElement(By.id("password")).sendKeys( "secret_sauce");
++        //click login
++        driver.findElement(By.id("login-button")).click();
++    }
++
++    @Test
++    public void failed_login_case1() {
++        WebDriver driver;
++        String baseUrl = "https://www.saucedemo.com/";
++
++        WebDriverManager.chromedriver().setup();
++
++        //apply chrome driver setup
++        //buka page login saucedemo
++        driver = new ChromeDriver();
++        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
++        driver.manage().window().maximize();
++        driver.get(baseUrl);
++
++        //input wrong username
++        driver.findElement(By.id("user-name")).sendKeys("standard_user123");
++        //input password
++        driver.findElement(By.id("password")).sendKeys("secret_sauce");
++        //click login
++        driver.findElement(By.id("login-button")).click();
++
++        String ErrorLogin = driver.findElement(By.xpath("//div[@role='alert']")).getText();
++        Assert.assertEquals(ErrorLogin, "Epic sadface: Username and password do not match any user in this service");
++    }
++
++    @Test
++    public void failed_login_case2(){
++        WebDriver driver;
++        String baseUrl = "https://www.saucedemo.com/";
++
++        WebDriverManager.chromedriver().setup();
++
++        //apply chrome driver setup
++        //buka page login saucedemo
++        driver = new ChromeDriver();
++        driver.manage().window().maximize();
++        driver.get(baseUrl);
++
++        //input  username
++        driver.findElement(By.id("user-name")).sendKeys("standard_user");
++        //input wrong password
++        driver.findElement(By.id("password")).sendKeys("secret123_sauce");
++        //click login
++        driver.findElement(By.id("login-button")).click();
++
++        String ErrorLogin = driver.findElement(By.xpath("//div[@role='alert']")).getText();
++        Assert.assertEquals(ErrorLogin, "Epic sadface: Username and password do not match any user in this service");
++    }
++
++    @Test
++    public void addtochart(){
++        WebDriver driver;
++        String baseUrl = "https://www.saucedemo.com/";
++
++        WebDriverManager.chromedriver().setup();
++
++        //apply chrome driver setup
++        //buka page login saucedemo
++        driver = new ChromeDriver();
++        driver.manage().window().maximize();
++        driver.get(baseUrl);
++
++        //input username
++        driver.findElement(By.id("user-name")).sendKeys( "standard_user");
++        //input password
++        driver.findElement(By.id("password")).sendKeys( "secret_sauce");
++        //click login
++        driver.findElement(By.id("login-button")).click();
++        //klik add untuk produk Sauce Labs Backpack
++        driver.findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
++    }
++
++    @Test
++    public void removeproduct(){
++        WebDriver driver;
++        String baseUrl = "https://www.saucedemo.com/";
++
++        WebDriverManager.chromedriver().setup();
++
++        //apply chrome driver setup
++        //buka page login saucedemo
++        driver = new ChromeDriver();
++        driver.manage().window().maximize();
++        driver.get(baseUrl);
++
++        //input username
++        driver.findElement(By.id("user-name")).sendKeys( "standard_user");
++        //input password
++        driver.findElement(By.id("password")).sendKeys( "secret_sauce");
++        //click login
++        driver.findElement(By.id("login-button")).click();
++        //klik add untuk produk Sauce Labs Backpack
++        driver.findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
++        //klik remove
++        driver.findElement(By.id("remove-sauce-labs-backpack")).click();
++    }
++
++    @Test
++    public void kliktogglemenu(){
++        WebDriver driver;
++        String baseUrl = "https://www.saucedemo.com/";
++
++        WebDriverManager.chromedriver().setup();
++
++        //apply chrome driver setup
++        //buka page login saucedemo
++        driver = new ChromeDriver();
++        driver.manage().window().maximize();
++        driver.get(baseUrl);
++
++        //input username
++        driver.findElement(By.id("user-name")).sendKeys( "standard_user");
++        //input password
++        driver.findElement(By.id("password")).sendKeys( "secret_sauce");
++        //click login
++        driver.findElement(By.id("login-button")).click();
++        //clik toggle menu
++        driver.findElement(By.id("react-burger-menu-btn")).click();
++
++    }
++}
++
+Index: src/main/java/org/example/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/Main.java b/src/main/java/org/example/Main.java
+new file mode 100644
+--- /dev/null	(date 1698160636366)
++++ b/src/main/java/org/example/Main.java	(date 1698160636366)
+@@ -0,0 +1,19 @@
++package org.example;
++
++// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
++// then press Enter. You can now see whitespace characters in your code.
++public class Main {
++    public static void main(String[] args) {
++        // Press Alt+Enter with your caret at the highlighted text to see how
++        // IntelliJ IDEA suggests fixing it.
++        System.out.printf("Hello and welcome!");
++
++        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
++        for (int i = 1; i <= 5; i++) {
++
++            // Press Shift+F9 to start debugging your code. We have set one breakpoint
++            // for you, but you can always add more by pressing Ctrl+F8.
++            System.out.println("i = " + i);
++        }
++    }
++}
+\ No newline at end of file
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/encodings.xml b/.idea/encodings.xml
+new file mode 100644
+--- /dev/null	(date 1698136668571)
++++ b/.idea/encodings.xml	(date 1698136668571)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Encoding">
++    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: src/test/java/login.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/login.java b/src/test/java/login.java
+new file mode 100644
+--- /dev/null	(date 1698160994082)
++++ b/src/test/java/login.java	(date 1698160994082)
+@@ -0,0 +1,25 @@
++import io.github.bonigarcia.wdm.WebDriverManager;
++import org.junit.Test;
++import org.openqa.selenium.WebDriver;
++import org.openqa.selenium.chrome.ChromeDriver;
++import org.openqa.selenium.chrome.ChromeOptions;
++
++public class login {
++    @Test //tag untuk running script dibawah ini
++    public void open_browser(){
++        WebDriver driver;
++        String baseUrl = "https://www.saucedemo.com/";
++
++        WebDriverManager.chromedriver().setup();
++
++        //apply chrome driver setup
++
++        driver = new ChromeDriver();
++        driver.manage().window().maximize();
++        driver.get(baseUrl);
++        String title = driver.getTitle();
++        System.out.println(title);
++
++        driver.close();
++    }
++}
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+--- /dev/null	(date 1698136636673)
++++ b/.gitignore	(date 1698136636673)
+@@ -0,0 +1,38 @@
++target/
++!.mvn/wrapper/maven-wrapper.jar
++!**/src/main/**/target/
++!**/src/test/**/target/
++
++### IntelliJ IDEA ###
++.idea/modules.xml
++.idea/jarRepositories.xml
++.idea/compiler.xml
++.idea/libraries/
++*.iws
++*.iml
++*.ipr
++
++### Eclipse ###
++.apt_generated
++.classpath
++.factorypath
++.project
++.settings
++.springBeans
++.sts4-cache
++
++### NetBeans ###
++/nbproject/private/
++/nbbuild/
++/dist/
++/nbdist/
++/.nb-gradle/
++build/
++!**/src/main/**/build/
++!**/src/test/**/build/
++
++### VS Code ###
++.vscode/
++
++### Mac OS ###
++.DS_Store
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1698136645362)
++++ b/.idea/.gitignore	(date 1698136645362)
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1698136645514)
++++ b/.idea/vcs.xml	(date 1698136645514)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: java/net/annotations.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/java/net/annotations.xml b/java/net/annotations.xml
+new file mode 100644
+--- /dev/null	(date 1698165048292)
++++ b/java/net/annotations.xml	(date 1698165048292)
+@@ -0,0 +1,5 @@
++<root>
++    <item name='java.net.SocketException'>
++        <annotation name='java.lang.Deprecated'/>
++    </item>
++</root>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1698136643086)
++++ b/.idea/misc.xml	(date 1698136643086)
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="MavenProjectsManager">
++    <option name="originalFiles">
++      <list>
++        <option value="$PROJECT_DIR$/pom.xml" />
++      </list>
++    </option>
++  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
